@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Patch, Post, Put, Query, Res } from '@nestjs/common';
+import { ApiQuery } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { ProductosService } from './productos.service.js';
 import { CrearProductoDto } from './dto/crear-producto.dto.js';
@@ -9,6 +10,7 @@ export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
   @Get()
+  @ApiQuery({ name: 'nombre', required: false, type: String, description: 'Filtro opcional por nombre. Si no se envía, se muestran todos los productos.' })
   listar(@Query('nombre') nombre?: string) {
     return this.productosService.findAll(nombre);
   }
